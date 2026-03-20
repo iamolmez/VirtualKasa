@@ -7,6 +7,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -14,7 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class CrateCommand implements CommandExecutor, org.bukkit.command.TabCompleter {
+public class CrateCommand implements CommandExecutor, TabCompleter {
     
     private final VirtualKasa plugin;
     
@@ -118,7 +119,6 @@ public class CrateCommand implements CommandExecutor, org.bukkit.command.TabComp
             return;
         }
         
-        // Check if player has key
         ItemStack key = crate.getKeyItem();
         if (key == null) {
             player.sendMessage("§cBu kasa için anahtar tanımlanmamış!");
@@ -130,7 +130,6 @@ public class CrateCommand implements CommandExecutor, org.bukkit.command.TabComp
             return;
         }
         
-        // Remove key and open crate
         player.getInventory().removeItem(key);
         new CrateOpenGUI(plugin, player, crate);
     }
@@ -187,4 +186,28 @@ public class CrateCommand implements CommandExecutor, org.bukkit.command.TabComp
         crateItem.setAmount(amount);
         target.getInventory().addItem(crateItem);
         
-        sender.sendMessage("§a" + target.getName() + " adlı oyuncuya " + amount + " adet " + crate.getName() + 
+        sender.sendMessage("§a" + target.getName() + " adlı oyuncuya " + amount + " adet " + crate.getName() + " verildi.");
+        target.sendMessage("§a" + amount + " adet " + crate.getName() + " aldınız!");
+    }
+    
+    @Override
+    public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+        if (args.length == 1) {
+            return Arrays.asList("list", "open", "givekey", "givecrate");
+        }
+        
+        if (args.length == 2 && args[0].equalsIgnoreCase("open")) {
+            return plugin.getCrateManager().getAllCrates().stream()
+                .map(Crate::getId)
+                .collect(Collectors.toList());
+        }
+        
+        if (args.length == 2 && (args[0].equalsIgnoreCase("givekey") || args[0].equalsIgnoreCase("givecrate"))) {
+            return Bukkit.getOnlinePlayers().stream()
+                .map(Player::getName)
+                .collect(Collectors.toList());
+        }
+        
+        return Arrays.asList();
+    }
+}
