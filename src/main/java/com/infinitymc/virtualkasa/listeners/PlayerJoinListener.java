@@ -15,9 +15,7 @@ public class PlayerJoinListener implements Listener {
     
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        if (!plugin.getEconomyManager().hasAccount(event.getPlayer())) {
-            plugin.getEconomyManager().createPlayerAccount(event.getPlayer());
-            plugin.getLogger().info("Yeni oyuncu hesabı oluşturuldu: " + event.getPlayer().getName());
-        }
+        // Crate sistemi için herhangi bir başlangıç işlemi gerekmez
+        plugin.getLogger().info("Oyuncu katıldı: " + event.getPlayer().getName());
     }
 }
