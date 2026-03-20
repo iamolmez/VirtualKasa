@@ -1,0 +1,57 @@
+# VirtualKasa Plugin Ayarları
+
+# Veritabanı Ayarları
+database:
+  # Desteklenen türler: sqlite, mysql
+  type: sqlite
+  
+  # SQLite ayarları
+  sqlite:
+    file: database.db
+  
+  # MySQL ayarları
+  mysql:
+    host: localhost
+    port: 3306
+    database: virtualkasa
+    username: root
+    password: ""
+
+# Ekonomi Ayarları
+economy:
+  # Yeni oyuncuların başlangıç bakiyesi
+  starting_balance: 1000.0
+  
+  # Maksimum bakiye limiti
+  max_balance: 1000000.0
+  
+  # Para birimi sembolü
+  currency_symbol: "₺"
+  
+  # Ondalık basamak sayısı
+  decimal_places: 2
+
+# Mesaj Ayarları
+messages:
+  prefix: "&6[VirtualKasa]&r "
+  no_permission: "&cBu komutu kullanmak için yetkiniz yok!"
+  player_only: "&cBu komutu sadece oyuncular kullanabilir!"
+  invalid_number: "&cGeçersiz sayı!"
+  insufficient_funds: "&cYeterli bakiyeniz yok!"
+  player_not_found: "&cOyuncu bulunamadı!"
+  balance: "&aBakiyeniz: %balance%"
+  deposit: "&aHesabınıza %amount% yatırıldı!"
+  withdraw: "&aHesabınızdan %amount% çekildi!"
+  transfer: "&a%target% oyuncusuna %amount% transfer edildi!"
+  receive: "&a%sender% oyuncusundan %amount% aldınız!"
+
+# Diğer Ayarlar
+settings:
+  # Otomatik hesap oluşturma
+  auto_create_account: true
+  
+  # İşlem kayıtlarını tut
+  log_transactions: true
+  
+  # PlaceholderAPI entegrasyonu
+  placeholderapi: true

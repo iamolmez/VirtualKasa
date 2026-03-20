@@ -1,0 +1,35 @@
+name: VirtualKasa
+version: 1.0.0
+main: com.infinitymc.virtualkasa.VirtualKasa
+api-version: 1.20
+author: InfinityMC
+description: Sanal kasa sistemi için Paper 1.20.4 plugini
+website: https://infinitymc.net
+
+commands:
+  kasa:
+    description: Kasa yönetim komutları
+    usage: /kasa <para|yatır|çek|bilgi|transfer>
+    aliases: [para, money, balance]
+  adminkasa:
+    description: Admin kasa yönetim komutları
+    usage: /adminkasa <ver|al|sıfırla>
+    permission: virtualkasa.admin
+    aliases: [akasa, adminmoney]
+
+permissions:
+  virtualkasa.admin:
+    description: Admin kasa komutlarını kullanma izni
+    default: op
+  virtualkasa.transfer:
+    description: Para transferi yapma izni
+    default: true
+  virtualkasa.withdraw:
+    description: Para çekme izni
+    default: true
+  virtualkasa.deposit:
+    description: Para yatırma izni
+    default: true
+
+depend: []
+softdepend: [Vault, PlaceholderAPI]
