@@ -1,35 +1,38 @@
 name: VirtualKasa
-version: 1.0.0
+version: 2.0.0
 main: com.infinitymc.virtualkasa.VirtualKasa
 api-version: 1.20
 author: InfinityMC
-description: Sanal kasa sistemi için Paper 1.20.4 plugini
+description: Minecraft kasa (crate) sistemi - CS tarzı kasa açma
 website: https://infinitymc.net
 
 commands:
   kasa:
     description: Kasa yönetim komutları
-    usage: /kasa <para|yatır|çek|bilgi|transfer>
-    aliases: [para, money, balance]
+    usage: /kasa <list|open|givekey|givecrate>
+    aliases: [crate, kasalar, crates]
   adminkasa:
     description: Admin kasa yönetim komutları
-    usage: /adminkasa <ver|al|sıfırla>
+    usage: /adminkasa <create|delete|edit|reload>
     permission: virtualkasa.admin
-    aliases: [akasa, adminmoney]
+    aliases: [akasa, admincrate]
 
 permissions:
   virtualkasa.admin:
     description: Admin kasa komutlarını kullanma izni
     default: op
-  virtualkasa.transfer:
-    description: Para transferi yapma izni
+  virtualkasa.use:
+    description: Kasa açma izni
     default: true
-  virtualkasa.withdraw:
-    description: Para çekme izni
+  virtualkasa.open:
+    description: Belirli kasaları açma izni
     default: true
-  virtualkasa.deposit:
-    description: Para yatırma izni
-    default: true
+  virtualkasa.givekey:
+    description: Anahtar verme izni (admin)
+    default: op
+  virtualkasa.givecrate:
+    description: Kasa verme izni (admin)
+    default: op
 
 depend: []
-softdepend: [Vault, PlaceholderAPI]
+softdepend: [PlaceholderAPI]

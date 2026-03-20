@@ -1,10 +1,10 @@
 package com.infinitymc.virtualkasa;
 
-import com.infinitymc.virtualkasa.commands.KasaCommand;
-import com.infinitymc.virtualkasa.commands.AdminKasaCommand;
+import com.infinitymc.virtualkasa.commands.CrateCommand;
+import com.infinitymc.virtualkasa.commands.AdminCrateCommand;
 import com.infinitymc.virtualkasa.config.ConfigManager;
-import com.infinitymc.virtualkasa.database.DatabaseManager;
-import com.infinitymc.virtualkasa.economy.EconomyManager;
+import com.infinitymc.virtualkasa.crates.CrateManager;
+import com.infinitymc.virtualkasa.listeners.CrateListener;
 import com.infinitymc.virtualkasa.listeners.PlayerJoinListener;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -12,8 +12,7 @@ public final class VirtualKasa extends JavaPlugin {
     
     private static VirtualKasa instance;
     private ConfigManager configManager;
-    private DatabaseManager databaseManager;
-    private EconomyManager economyManager;
+    private CrateManager crateManager;
     
     @Override
     public void onEnable() {
@@ -22,18 +21,12 @@ public final class VirtualKasa extends JavaPlugin {
         saveDefaultConfig();
         
         configManager = new ConfigManager(this);
-        databaseManager = new DatabaseManager(this);
-        economyManager = new EconomyManager(this);
+        crateManager = new CrateManager(this);
         
-        if (!databaseManager.connect()) {
-            getLogger().severe("Veritabanı bağlantısı başarısız! Plugin devre dışı bırakılıyor.");
-            getServer().getPluginManager().disablePlugin(this);
-            return;
-        }
+        getCommand("kasa").setExecutor(new CrateCommand(this));
+        getCommand("adminkasa").setExecutor(new AdminCrateCommand(this));
         
-        getCommand("kasa").setExecutor(new KasaCommand(this));
-        getCommand("adminkasa").setExecutor(new AdminKasaCommand(this));
-        
+        getServer().getPluginManager().registerEvents(new CrateListener(this), this);
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
         
         if (getServer().getPluginManager().getPlugin("PlaceholderAPI") != null) {
@@ -41,13 +34,14 @@ public final class VirtualKasa extends JavaPlugin {
             getLogger().info("PlaceholderAPI entegrasyonu aktif.");
         }
         
-        getLogger().info("VirtualKasa plugini başarıyla aktif edildi!");
+        getLogger().info("VirtualKasa (Crate Sistemi) plugini başarıyla aktif edildi!");
+        getLogger().info("Yüklenen kasa sayısı: " + crateManager.getCrateCount());
     }
     
     @Override
     public void onDisable() {
-        if (databaseManager != null) {
-            databaseManager.disconnect();
+        if (crateManager != null) {
+            crateManager.saveData();
         }
         getLogger().info("VirtualKasa plugini devre dışı bırakıldı.");
     }
@@ -60,11 +54,7 @@ public final class VirtualKasa extends JavaPlugin {
         return configManager;
     }
     
-    public DatabaseManager getDatabaseManager() {
-        return databaseManager;
-    }
-    
-    public EconomyManager getEconomyManager() {
-        return economyManager;
+    public CrateManager getCrateManager() {
+        return crateManager;
     }
 }
