@@ -4,12 +4,12 @@ import com.infinitymc.virtualkasa.economy.EconomyManager;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.entity.Player;
 
-public class PlaceholderExpansion extends PlaceholderExpansion {
+public class KasaPlaceholderExpansion extends PlaceholderExpansion {
     
     private final VirtualKasa plugin;
     private final EconomyManager economy;
     
-    public PlaceholderExpansion() {
+    public KasaPlaceholderExpansion() {
         this.plugin = VirtualKasa.getInstance();
         this.economy = plugin.getEconomyManager();
     }

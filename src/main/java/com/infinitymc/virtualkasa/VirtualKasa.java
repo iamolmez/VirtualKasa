@@ -37,7 +37,7 @@ public final class VirtualKasa extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
         
         if (getServer().getPluginManager().getPlugin("PlaceholderAPI") != null) {
-            new PlaceholderExpansion().register();
+            new KasaPlaceholderExpansion().register();
             getLogger().info("PlaceholderAPI entegrasyonu aktif.");
         }
         
